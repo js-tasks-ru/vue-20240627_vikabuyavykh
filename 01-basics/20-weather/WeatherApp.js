@@ -22,13 +22,7 @@ export default defineComponent({
       return icon
     }
 
-    function isNightTheme({ dt, sunrise, sunset }) {
-      let currentTime = new Date()
-      currentTime.setHours(dt.split(':')[0], dt.split(':')[1])
-      let sunriseTime = new Date()
-      sunriseTime.setHours(sunrise.split(':')[0], sunrise.split(':')[1])
-      let sunsetTime = new Date()
-      sunsetTime.setHours(sunset.split(':')[0], sunset.split(':')[1])
+    function isNightTheme({ dt: currentTime, sunrise: sunriseTime, sunset: sunsetTime }) {
       return currentTime < sunriseTime || sunsetTime < currentTime
     }
 
@@ -48,36 +42,36 @@ export default defineComponent({
         <li v-for="item in data" class="weather-card" :class="{'weather-card--night': isNightTheme({dt: item.current.dt, sunrise: item.current.sunrise, sunset:item.current.sunset })}">
           <div v-if="item.alert" class="weather-alert">
             <span class="weather-alert__icon">⚠️</span>
-            <span class="weather-alert__description">{{item.alert.sender_name}}: {{item.alert.description}}</span>
+            <span class="weather-alert__description">{{ item.alert.sender_name }}: {{ item.alert.description }}</span>
           </div>
           <div>
             <h2 class="weather-card__name">
-              {{item.geographic_name}}
+              {{ item.geographic_name }}
             </h2>
             <div class="weather-card__time">
-              {{item.current.dt}}
+              {{ item.current.dt }}
             </div>
           </div>
           <div class="weather-conditions">
-            <div class="weather-conditions__icon" :title="item.current.weather.description">{{pickIcon(item.current.weather.id)}}</div>
-            <div class="weather-conditions__temp">{{tempConverter(item.current.temp)}} °C</div>
+            <div class="weather-conditions__icon" :title="item.current.weather.description">{{ pickIcon(item.current.weather.id) }}</div>
+            <div class="weather-conditions__temp">{{ tempConverter(item.current.temp) }} °C</div>
           </div>
           <div class="weather-details">
             <div class="weather-details__item">
               <div class="weather-details__item-label">Давление, мм рт. ст.</div>
-              <div class="weather-details__item-value">{{pressureConverter(item.current.pressure)}}</div>
+              <div class="weather-details__item-value">{{ pressureConverter(item.current.pressure) }}</div>
             </div>
             <div class="weather-details__item">
               <div class="weather-details__item-label">Влажность, %</div>
-              <div class="weather-details__item-value">{{item.current.humidity}}</div>
+              <div class="weather-details__item-value">{{ item.current.humidity }}</div>
             </div>
             <div class="weather-details__item">
               <div class="weather-details__item-label">Облачность, %</div>
-              <div class="weather-details__item-value">{{item.current.clouds}}</div>
+              <div class="weather-details__item-value">{{ item.current.clouds }}</div>
             </div>
             <div class="weather-details__item">
               <div class="weather-details__item-label">Ветер, м/с</div>
-              <div class="weather-details__item-value">{{item.current.wind_speed}}</div>
+              <div class="weather-details__item-value">{{ item.current.wind_speed }}</div>
             </div>
           </div>
         </li>
