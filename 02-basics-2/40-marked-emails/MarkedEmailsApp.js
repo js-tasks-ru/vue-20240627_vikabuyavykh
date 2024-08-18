@@ -36,13 +36,14 @@ export default defineComponent({
     const searchQuery = ref('')
 
     const markedEmails = computed(() => {
-      return searchQuery.value !== ''
-        ? emails.filter(item => item.toLocaleLowerCase().includes(searchQuery.value.toLocaleLowerCase()))
-        : []
+      return emails.map(email => ({
+        email,
+        isMarked:
+          searchQuery.value === '' ? false : email.toLocaleLowerCase().includes(searchQuery.value.toLocaleLowerCase()),
+      }))
     })
 
     return {
-      emails,
       searchQuery,
       markedEmails,
     }
@@ -54,7 +55,7 @@ export default defineComponent({
         <input type="search" aria-label="Search" v-model="searchQuery" />
       </div>
       <ul aria-label="Emails">
-        <li v-for="email in emails" :class="{marked: markedEmails.includes(email)}">{{ email }}</li>
+        <li v-for="email in markedEmails" :class="{ marked: email.isMarked }">{{ email.email }}</li>
       </ul>
     </div>
   `,
